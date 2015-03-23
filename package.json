@@ -1,6 +1,6 @@
 {
   "name": "generator-gulp-happy-mobile-webapp",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Scaffold out a front-end mobile web app",
   "license": "MIT",
   "repository": "zerob13/generator-gulp-happy-mobile-webapp",
