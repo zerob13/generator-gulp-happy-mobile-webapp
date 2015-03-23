@@ -40,7 +40,7 @@ module.exports = yeoman.generators.Base.extend({
     var done = this.async();
 
     if (!this.options['skip-welcome-message']) {
-      this.log(yosay('\'Allo \'allo! Out of the box I include HTML5 Boilerplate, jQuery, and a gulpfile.js to build your app.'));
+      this.log(yosay(' Out of the box I include HTML5 Boilerplate, Zepto, HTML cache and a gulpfile.js to build your app.'));
     }
 
     var prompts = [{
@@ -54,11 +54,19 @@ module.exports = yeoman.generators.Base.extend({
       }, {
         name: 'Bootstrap',
         value: 'includeBootstrap',
-        checked: true
+        checked: false
       }, {
         name: 'Modernizr',
         value: 'includeModernizr',
+        checked: false
+      }, {
+        name: 'Mustache.js',
+        value: 'includeMustache',
         checked: true
+      }, {
+        name: 'CacheManifest',
+        value: 'includeCache',
+        checked: false
       }]
     }];
 
@@ -74,6 +82,8 @@ module.exports = yeoman.generators.Base.extend({
       this.includeSass = hasFeature('includeSass');
       this.includeBootstrap = hasFeature('includeBootstrap');
       this.includeModernizr = hasFeature('includeModernizr');
+      this.includeCache = hasFeature('includeCache');
+      this.includeMustache = hasFeature('includeMustache');
 
       done();
     }.bind(this));
@@ -104,11 +114,15 @@ module.exports = yeoman.generators.Base.extend({
         var bs = 'bootstrap' + (this.includeSass ? '-sass-official' : '');
         bower.dependencies[bs] = '~3.3.1';
       } else {
-        bower.dependencies.jquery = '~2.1.1';
+        bower.dependencies.zepto = '~1.1.6';
       }
 
       if (this.includeModernizr) {
-        bower.dependencies.modernizr = '~2.8.1';
+        bower.dependencies.modernizr = '~2.8.2';
+      }
+
+      if (this.includeMustache) {
+        bower.dependencies.mustache = '~1.0.0';
       }
 
       this.copy('bowerrc', '.bowerrc');
