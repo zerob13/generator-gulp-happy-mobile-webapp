@@ -37,8 +37,7 @@ gulp.task('jshint', function() {
 gulp.task('html', ['styles'], function() {
   var assets = $.useref.assets({searchPath: ['.tmp', 'app', '.']});
 
-  return gulp.src(['app/*.html' <% if (includeMustache) { %> 
-  , 'app/template/{,*/}*.mst' <% } %>])
+  return gulp.src('app/*.html')
     .pipe(assets)
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', $.csso()))
@@ -46,7 +45,19 @@ gulp.task('html', ['styles'], function() {
     .pipe($.useref())
     .pipe($.if('*.html', $.minifyHtml({conditionals: true,loose: true})))
     .pipe(gulp.dest('dist'));
-}); <% if (includeCache) { %>
+});<% if (includeMustache) { %> 
+gulp.task('mustache',['styles'],function(){
+  var assets = $.useref.assets({searchPath: ['.tmp', 'app', '.']});
+
+  return gulp.src('app/template/*.mst')
+    .pipe(assets)
+    .pipe($.if('*.js', $.uglify()))
+    .pipe($.if('*.css', $.csso()))
+    .pipe(assets.restore())
+    .pipe($.useref())
+    .pipe(gulp.dest('dist/template'));
+  
+});<% } %><% if (includeCache) { %>
 gulp.task('manifest', function() {
   gulp.src(['dist/*'])
     .pipe($.manifest({
@@ -82,8 +93,7 @@ gulp.task('fonts', function() {
 
 gulp.task('extras', function() {
   return gulp.src([
-    'app/*.*', <% if (includeMustache) { %>
-      'app/template/*.mst', <% } %>
+    'app/*.*', 
     '!app/*.html'
   ], {
     dot: true
@@ -147,7 +157,7 @@ gulp.task('wiredep', function() {
 
 
 gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras' <% if (includeCache) { %> , 'manifest' <% } %>
-], function() {
+<% if (includeMustache) %> ,'mustache' <% } %>], function() {
   return gulp.src('dist/**/*').pipe($.size({
     title: 'build',
     gzip: true
