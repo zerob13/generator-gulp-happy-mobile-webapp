@@ -10,11 +10,11 @@ module.exports = yeoman.generators.Base.extend({
   constructor: function() {
     yeoman.generators.Base.apply(this, arguments);
 
-//     this.option('test-framework', {
-//       desc: 'Test framework to be invoked',
-//       type: String,
-//       defaults: 'mocha'
-//     });
+    //     this.option('test-framework', {
+    //       desc: 'Test framework to be invoked',
+    //       type: String,
+    //       defaults: 'mocha'
+    //     });
 
     this.option('skip-welcome-message', {
       desc: 'Skips the welcome message',
@@ -91,7 +91,7 @@ module.exports = yeoman.generators.Base.extend({
 
   writing: {
     gulpfile: function() {
-        this.template('gulpfile.js');
+      this.template('gulpfile.js');
     },
 
     packageJSON: function() {
@@ -197,6 +197,9 @@ module.exports = yeoman.generators.Base.extend({
 
     app: function() {
       this.mkdir('app');
+      if (this.includeMustache) {
+        this.mkdir('app/template');
+      }
       this.mkdir('app/scripts');
       this.mkdir('app/styles');
       this.mkdir('app/images');
