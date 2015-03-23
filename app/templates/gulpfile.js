@@ -49,7 +49,7 @@ gulp.task('html', ['styles'], function() {
 }); <% if (includeCache) { %>
 gulp.task('manifest', function() {
   gulp.src(['dist/*'])
-    .pipe(manifest({
+    .pipe($.manifest({
       hash: true,
       timestamp: false,
       preferOnline: true,
